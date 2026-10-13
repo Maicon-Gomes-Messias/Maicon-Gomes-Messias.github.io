@@ -50,7 +50,7 @@ export const site = {
   name: "Maicon Gomes Messias",
   shortName: "Maicon Messias",
   initials: "MG",
-  email: "maiconmessias@pucminas.br",
+  email: "maicon.gomesmessias@gmail.com",
   phone: "+55 31 3319-4310",
   phoneHref: "+553133194310",
   github: "https://github.com/Maicon-Gomes-Messias",

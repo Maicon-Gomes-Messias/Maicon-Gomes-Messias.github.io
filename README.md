@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://maicon-gomes-messias.github.io/">Site</a> &nbsp;·&nbsp;
   <a href="https://www.linkedin.com/in/maicon-gomes-89a5561ab">LinkedIn</a> &nbsp;·&nbsp;
-  <a href="mailto:maiconmessias@pucminas.br">E-mail</a>
+  <a href="mailto:maicon.gomesmessias@gmail.com">E-mail</a>
 </p>
 
 ---
