@@ -136,10 +136,13 @@ body {
   border-radius: 2px;
 }
 
-p {
-  text-wrap: pretty;
-}
-
+/*
+ * Nota de performance: aqui havia `text-wrap: pretty` em todos os parágrafos.
+ * É um algoritmo de quebra de linha caro, que o navegador reexecuta a cada
+ * relayout do documento, e o ganho num parágrafo é pequeno — ficou de fora.
+ * O `balance` nos títulos é barato (o Chromium limita a 6 linhas por bloco)
+ * e melhora a tipografia, então permanece.
+ */
 h1,
 h2,
 h3 {
@@ -212,6 +215,20 @@ h3 {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Páginas longas: o que está fora da tela não é renderizado          */
+/*                                                                     */
+/*  Cada seção abaixo da dobra fica com content-visibility: auto, o    */
+/*  que faz o navegador pular layout e pintura do que não está à       */
+/*  vista. O contain-intrinsic-size evita que a barra de rolagem       */
+/*  "pule": o modo `auto` faz o navegador lembrar o tamanho real de     */
+/*  cada seção depois de renderizá-la uma vez.                          */
+/* ------------------------------------------------------------------ */
+.defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+/* ------------------------------------------------------------------ */
 /*  Impressão: o site também precisa funcionar como currículo em PDF   */
 /* ------------------------------------------------------------------ */
 @media print {
@@ -219,6 +236,11 @@ h3 {
   footer,
   .bleed {
     display: none !important;
+  }
+
+  /* Ao imprimir, tudo precisa estar renderizado. */
+  .defer-render {
+    content-visibility: visible;
   }
 
   body {

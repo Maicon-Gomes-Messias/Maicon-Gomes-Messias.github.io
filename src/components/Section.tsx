@@ -14,7 +14,7 @@ type SectionProps = {
  */
 export function Section({ id, title, note, children }: SectionProps) {
   return (
-    <section id={id} className="scroll-mt-20 border-t border-line">
+    <section id={id} className="defer-render scroll-mt-20 border-t border-line">
       <div className="mx-auto w-full max-w-[1180px] px-5 py-16 sm:px-8 md:py-24">
         <div className="grid gap-8 md:grid-cols-[minmax(0,210px)_minmax(0,1fr)] md:gap-16">
           <div className="md:sticky md:top-28 md:self-start">

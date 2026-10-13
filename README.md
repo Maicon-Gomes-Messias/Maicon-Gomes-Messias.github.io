@@ -95,6 +95,15 @@ reservado para leitura de calor.
   respondem a uma ação do usuário.
 - **CSS embutido no HTML** (`inlineStylesheets: "always"`), eliminando uma requisição que
   bloqueia a renderização.
+- **Seções fora da tela não são renderizadas** (`content-visibility: auto` com
+  `contain-intrinsic-size`). Numa página longa como esta, o layout do documento inteiro
+  dominava o tempo de thread principal; agora o navegador só monta o que está à vista. O
+  `contain-intrinsic-size: auto` faz ele lembrar o tamanho real de cada seção depois da
+  primeira renderização, então não há salto na rolagem (CLS 0). Na impressão, o
+  `content-visibility` volta a `visible` para o PDF sair completo.
+- **Sem `text-wrap: pretty`.** É um algoritmo de quebra de linha caro, reexecutado a cada
+  relayout; o ganho tipográfico em parágrafos não paga. Nos títulos o `balance` continua,
+  porque é barato (o Chromium limita a seis linhas por bloco) e melhora o resultado.
 - **Fontes auto-hospedadas** em `public/fonts` (subsets latin, licença SIL Open Font
   License). Só as duas fontes usadas acima da dobra são pré-carregadas; a monoespaçada não.
   As famílias `…Fallback` repetem as métricas das originais para o layout não deslocar na
