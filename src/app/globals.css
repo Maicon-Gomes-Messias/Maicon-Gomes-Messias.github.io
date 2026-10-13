@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Tokens de design — "Sinal"                                         */
+/*  Superfície de papel técnico, tinta verde-escura, acento petróleo.  */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #f1f2ed;
+  --color-paper-deep: #e5e7de;
+  --color-surface: #fbfbf7;
+
+  --color-ink: #101b19;
+  --color-ink-soft: #46534f;
+  /* Escurecido para atingir contraste >= 4.5:1 sobre o papel. */
+  --color-ink-faint: #626c66;
+
+  --color-line: #d6dace;
+  --color-line-strong: #b5bcac;
+
+  /* Sinal: cor de instrumento. Tom escuro para texto, tom vivo para gráficos. */
+  --color-signal: #0b6455;
+  --color-signal-bright: #12a08a;
+  --color-signal-wash: #dfe9e3;
+
+  /* Calor: usado apenas em elementos gráficos e destaques de leitura. */
+  --color-heat: #9a5417;
+  --color-heat-bright: #e8873a;
+  --color-heat-wash: #f3dcc5;
+
+  --text-display: clamp(2.9rem, 8.4vw, 5.6rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.038em;
+
+  --text-h2: clamp(1.65rem, 3vw, 2.3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+
+  --text-h3: 1.28rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.01em;
+
+  --text-lead: clamp(1.12rem, 1.8vw, 1.35rem);
+  --text-lead--line-height: 1.55;
+
+  --text-small: 0.92rem;
+  --text-small--line-height: 1.55;
+
+  --text-micro: 0.8rem;
+  --text-micro--line-height: 1.45;
+
+  --radius-instrument: 0.4rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-instrument);
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-instrument);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                              */
+/* ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  /* A faixa de sinal usa 100vw; clip evita rolagem horizontal sem quebrar o sticky. */
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: var(--color-signal-bright);
+  color: #04211b;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Atmosfera: malha fina de papel técnico                            */
+/* ------------------------------------------------------------------ */
+.grid-field {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-line) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 70%, transparent) 1px, transparent 1px);
+  background-size: 68px 68px;
+}
+
+.rule {
+  border-top: 1px solid var(--color-line);
+}
+
+.inset-rule {
+  box-shadow: inset 0 0 0 1px var(--color-line);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Movimento: um único momento orquestrado na abertura                */
+/* ------------------------------------------------------------------ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.reveal {
+  animation: rise 0.85s cubic-bezier(0.16, 0.84, 0.32, 1) both;
+}
+
+.reveal-fade {
+  animation: fade 1.2s ease-out both;
+}
+
+.reveal-step-1 { animation-delay: 0.04s; }
+.reveal-step-2 { animation-delay: 0.12s; }
+.reveal-step-3 { animation-delay: 0.2s; }
+.reveal-step-4 { animation-delay: 0.3s; }
+.reveal-step-5 { animation-delay: 0.42s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-fade {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilitários de texto                                              */
+/* ------------------------------------------------------------------ */
+.link-underline {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-signal) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 180ms ease, color 180ms ease;
+}
+
+.link-underline:hover {
+  text-decoration-color: var(--color-signal);
+}
+
+.data {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Faixa de sinal em largura total, alinhada à viewport. */
+.bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Impressão: o site também precisa funcionar como currículo em PDF   */
+/* ------------------------------------------------------------------ */
+@media print {
+  header,
+  footer,
+  .bleed {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .grid-field {
+    background-image: none !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  li,
+  article,
+  section {
+    break-inside: avoid;
+  }
+}

@@ -1,0 +1,61 @@
+name: Publicar no GitHub Pages
+
+on:
+  # Publica automaticamente a cada push na main.
+  push:
+    branches:
+      - main
+  # Permite disparar manualmente pela aba Actions.
+  workflow_dispatch:
+
+# Permissoes necessarias para o token publicar no GitHub Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Um deploy por vez, sem cancelar o que ja esta em andamento.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar o Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Configurar o Pages
+        uses: actions/configure-pages@v5
+
+      - name: Gerar o site estatico
+        run: npm run build
+        env:
+          # Faz canonical, Open Graph, sitemap e robots apontarem para o dominio final.
+          NEXT_PUBLIC_SITE_URL: https://maicon-gomes-messias.github.io
+
+      - name: Enviar o artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
