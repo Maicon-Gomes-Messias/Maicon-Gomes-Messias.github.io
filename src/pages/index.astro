@@ -1,3 +1,5 @@
+---
+import { getImage } from "astro:assets";
 import { Capabilities } from "@/components/Capabilities";
 import { Contact } from "@/components/Contact";
 import { Credentials } from "@/components/Credentials";
@@ -8,10 +10,23 @@ import { Projects } from "@/components/Projects";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Trajectory } from "@/components/Trajectory";
 import { awards, certifications } from "@/content/profile";
+// Import relativo de propósito: o alias `@/` não resolveu para assets no
+// modo de desenvolvimento (`astro dev`), embora funcionasse no build.
+import fotoPerfil from "../assets/foto-perfil.jpg";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { description, site, siteTitle, siteUrl } from "@/lib/site";
 
 const personId = `${siteUrl}/#person`;
 const websiteId = `${siteUrl}/#website`;
+
+// 400px é o tamanho nativo da foto; renderizada a 240px dá ~1,7x (retina).
+// Não há ganho em pedir mais que isso — só aumentaria o arquivo.
+const retrato = await getImage({
+  src: fotoPerfil,
+  format: "avif",
+  width: 400,
+  quality: 78,
+});
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -26,6 +41,7 @@ const jsonLd = {
       url: siteUrl,
       email: `mailto:${site.email}`,
       telephone: site.phone,
+      image: `${siteUrl}${retrato.src}`,
       address: {
         "@type": "PostalAddress",
         addressLocality: site.location.locality,
@@ -84,25 +100,25 @@ const jsonLd = {
     },
   ],
 };
+---
 
-export default function Home() {
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
-      />
-      <SiteHeader />
-      <main id="conteudo">
-        <Hero />
-        <Profile />
-        <Trajectory />
-        <Projects />
-        <Capabilities />
-        <Credentials />
-        <Contact />
-      </main>
-      <Footer />
-    </>
-  );
-}
+<BaseLayout>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+  />
+
+  <SiteHeader />
+
+  <main id="conteudo">
+    <Hero retrato={retrato} />
+    <Profile />
+    <Trajectory />
+    <Projects />
+    <Capabilities />
+    <Credentials />
+    <Contact />
+  </main>
+
+  <Footer />
+</BaseLayout>

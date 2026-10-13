@@ -40,14 +40,11 @@ jobs:
 
       - name: Gerar o site estatico
         run: npm run build
-        env:
-          # Faz canonical, Open Graph, sitemap e robots apontarem para o dominio final.
-          NEXT_PUBLIC_SITE_URL: https://maicon-gomes-messias.github.io
 
       - name: Enviar o artefato
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./dist
 
   deploy:
     needs: build

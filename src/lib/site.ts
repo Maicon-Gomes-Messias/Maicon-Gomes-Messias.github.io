@@ -1,24 +1,42 @@
 /**
  * Configuração central do site.
  *
- * Ao publicar, defina NEXT_PUBLIC_SITE_URL com o domínio final para que
- * canonical, sitemap, robots e Open Graph apontem para o endereço correto.
+ * O domínio final vem de `site` em astro.config.mjs e chega aqui como
+ * import.meta.env.SITE no momento do build.
  */
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://maicon-gomes-messias.github.io";
+export const siteUrl = (
+  import.meta.env.SITE ?? "https://maicon-gomes-messias.github.io"
+).replace(/\/$/, "");
 
 export const siteTitle = "Maicon Gomes Messias — Suporte técnico e infraestrutura de TI";
 
 export const description =
   "Técnico de TI na PUC Minas e bacharel em Engenharia de Computação. Atuo com suporte a usuários, infraestrutura de rede, Windows e AWS, com projetos em IoT, dados e machine learning.";
 
+export const keywords = [
+  "Maicon Gomes Messias",
+  "técnico de TI",
+  "suporte técnico",
+  "infraestrutura de TI",
+  "redes de computadores",
+  "administração Windows",
+  "AWS",
+  "engenharia de computação",
+  "PUC Minas",
+  "Internet das Coisas",
+  "IoT",
+  "machine learning",
+  "segurança da informação",
+  "Betim",
+  "Minas Gerais",
+];
+
 /** Data da última atualização do conteúdo. Atualize ao editar o site. */
 export const contentUpdated = "2026-10-13";
 
 /**
- * Imagem de compartilhamento (Open Graph / Twitter).
- * Gerada em `src/app/og.png/route.tsx`. A extensão `.png` no caminho importa:
- * o GitHub Pages define o Content-Type pela extensão do arquivo.
+ * Imagem de compartilhamento (Open Graph / Twitter), em public/og.png.
+ * É um arquivo estático: para trocar, substitua a imagem.
  */
 export const ogImage = {
   path: "/og.png",

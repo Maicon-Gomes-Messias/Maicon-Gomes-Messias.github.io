@@ -1,11 +1,10 @@
-import type { MetadataRoute } from "next";
+import type { APIRoute } from "astro";
 import { description, site, siteTitle } from "@/lib/site";
 
-// Necessario para a exportacao estatica (GitHub Pages).
-export const dynamic = "force-static";
+export const prerender = true;
 
-export default function manifest(): MetadataRoute.Manifest {
-  return {
+export const GET: APIRoute = () => {
+  const manifest = {
     name: siteTitle,
     short_name: site.shortName,
     description,
@@ -23,4 +22,8 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
   };
-}
+
+  return new Response(JSON.stringify(manifest), {
+    headers: { "Content-Type": "application/manifest+json; charset=utf-8" },
+  });
+};
