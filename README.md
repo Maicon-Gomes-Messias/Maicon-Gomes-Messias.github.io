@@ -84,12 +84,13 @@ mapas de calor de ocupação a partir de Wi-Fi (TCC) e óculos que convertem fal
 superfície de "papel técnico" clara, com verde-petróleo como cor de instrumento e âmbar
 reservado para leitura de calor.
 
-- **Elemento-assinatura:** as figuras reais do artigo no topo e em Projetos — o comparativo
-  de mapas de calor (`src/assets/tcc-mapa-calor.png`), o fluxograma do método
-  (`src/assets/tcc-fluxograma.png`) e o layout do ambiente de testes
-  (`src/assets/tcc-layout.png`), extraídas do artigo publicado na Revista Abakós. Cada figura é
-  processada pelo `astro:assets` em várias larguras, formando um `srcSet` responsivo
-  (`src/lib/responsive.ts`), para o celular não baixar a versão de desktop.
+- **Elemento-assinatura:** as figuras reais do artigo em Projetos — o comparativo de mapas de
+  calor (`src/assets/tcc-mapa-calor.png`), o fluxograma do método (`src/assets/tcc-fluxograma.png`)
+  e o layout do ambiente de testes (`src/assets/tcc-layout.png`), extraídas do artigo publicado
+  na Revista Abakós; no projeto dos óculos entram as fotos do protótipo
+  (`src/assets/oculos-*.jpg`). Cada figura é processada pelo `astro:assets` em várias larguras,
+  formando um `srcSet` responsivo (`src/lib/responsive.ts`), para o celular não baixar a versão
+  de desktop.
 - **Tipografia:** Space Grotesk (títulos), Instrument Sans (texto) e JetBrains Mono (apenas
   dados: datas, tecnologias, rótulos). Escala baseada em *The Elements of Typographic Style*.
 - **Estrutura:** grades editoriais com títulos de seção em coluna fixa, réguas de 1px e listas
@@ -115,10 +116,10 @@ reservado para leitura de calor.
   relayout; o ganho tipográfico em parágrafos não paga. Nos títulos o `balance` continua,
   porque é barato (o Chromium limita a seis linhas por bloco) e melhora o resultado.
 - **Imagens responsivas e preguiçosas.** Cada figura do artigo é gerada em quatro larguras
-  (AVIF) e entregue por `srcSet` + `sizes`; o navegador baixa só a variante necessária. As
-  figuras abaixo da dobra têm `loading="lazy"`, e todas declaram `width`/`height` para não
-  deslocar o layout (CLS 0). Medido no Lighthouse 13: **100** em mobile e desktop, com ~104 KB
-  de transferência e LCP em ~1,1 s.
+  (AVIF) e entregue por `srcSet` + `sizes`; o navegador baixa só a variante necessária — o
+  retrato incluído. As figuras abaixo da dobra têm `loading="lazy"`, e todas declaram
+  `width`/`height` para não deslocar o layout (CLS 0). Medido no Lighthouse 13: **100** em
+  mobile e desktop, com ~82 KB de transferência.
 - **Fontes auto-hospedadas** em `public/fonts` (subsets latin, licença SIL Open Font
   License). Só as duas fontes usadas acima da dobra são pré-carregadas; a monoespaçada não.
   As famílias `…Fallback` repetem as métricas das originais para o layout não deslocar na

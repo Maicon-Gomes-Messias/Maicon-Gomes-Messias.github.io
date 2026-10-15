@@ -1,5 +1,4 @@
 ---
-import { getImage } from "astro:assets";
 import { Capabilities } from "@/components/Capabilities";
 import { Contact } from "@/components/Contact";
 import { Credentials } from "@/components/Credentials";
@@ -35,14 +34,10 @@ const articleAuthors = publication
     )
   : [];
 
-// 400px é o tamanho nativo da foto; renderizada a 240px dá ~1,7x (retina).
-// Não há ganho em pedir mais que isso — só aumentaria o arquivo.
-const retrato = getImage({ src: fotoPerfil, format: "avif", width: 400, quality: 78 });
-
-// As figuras do artigo são servidas em várias larguras (srcSet), para o
-// celular não baixar a versão de desktop.
+// O retrato é exibido a 200px (celular) e 240px. Servido em srcSet para não
+// baixar a versão de 400px onde ela não é necessária.
 const [photo, heatmap, fluxograma, layout, oculosHardware, oculosPrototipo] = await Promise.all([
-  retrato,
+  responsiveImage(fotoPerfil, [240, 350, 400], { quality: 66 }),
   responsiveImage(tccMapaCalor, [480, 800, 1200, 1800], { quality: 78 }),
   responsiveImage(tccFluxograma, [480, 900, 1291]),
   responsiveImage(tccLayout, [480, 841]),
@@ -50,11 +45,7 @@ const [photo, heatmap, fluxograma, layout, oculosHardware, oculosPrototipo] = aw
   responsiveImage(oculosPrototipoImg, [480, 900, 1599]),
 ]);
 
-const retratoAsset = {
-  src: photo.src,
-  width: Number(photo.attributes.width),
-  height: Number(photo.attributes.height),
-};
+const retratoAsset = photo;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -68,7 +59,7 @@ const jsonLd = {
       description,
       url: siteUrl,
       email: `mailto:${site.email}`,
-      image: `${siteUrl}${retrato.src}`,
+      image: `${siteUrl}${photo.src}`,
       address: {
         "@type": "PostalAddress",
         addressLocality: site.location.locality,
@@ -160,7 +151,7 @@ const jsonLd = {
   <SiteHeader />
 
   <main id="conteudo">
-    <Hero retrato={retratoAsset} heatmap={heatmap} />
+    <Hero retrato={retratoAsset} />
     <Profile />
     <Trajectory />
     <Projects figures={{ heatmap, fluxograma, layout, oculosHardware, oculosPrototipo }} />
