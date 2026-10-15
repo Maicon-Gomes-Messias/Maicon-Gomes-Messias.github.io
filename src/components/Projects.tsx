@@ -38,6 +38,24 @@ function StackRow({ items }: { items: string[] }) {
   );
 }
 
+function ProjectLinks({ links }: { links: { label: string; href: string }[] }) {
+  return (
+    <div className="mt-6 flex flex-wrap gap-3 print:hidden">
+      {links.map((link) => (
+        <a
+          key={link.href}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-[var(--radius-instrument)] border border-line-strong px-4 py-2 text-small font-medium text-ink hover:border-ink"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 /** Figura do artigo: imagem emoldurada com legenda no padrão editorial. */
 function Figure({
   asset,
@@ -75,7 +93,13 @@ function Figure({
 export function Projects({
   figures,
 }: {
-  figures: { heatmap: Asset; fluxograma: Asset; layout: Asset };
+  figures: {
+    heatmap: Asset;
+    fluxograma: Asset;
+    layout: Asset;
+    oculosHardware: Asset;
+    oculosPrototipo: Asset;
+  };
 }) {
   const [thesis, glasses] = projects;
 
@@ -125,6 +149,7 @@ export function Projects({
             <p className="mt-1 text-small text-ink-faint">{glasses.context}</p>
             <p className="mt-5 max-w-[58ch] text-small text-ink-soft">{glasses.summary}</p>
             <Points items={glasses.points} />
+            {glasses.links ? <ProjectLinks links={glasses.links} /> : null}
             <StackRow items={glasses.stack} />
           </div>
           <div>
@@ -146,6 +171,21 @@ export function Projects({
               O caminho que o protótipo percorre: do som captado ao texto lido no visor.
             </p>
           </div>
+        </div>
+
+        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:gap-12 print:hidden">
+          <Figure
+            asset={figures.oculosHardware}
+            sizes="(min-width: 1024px) 400px, (min-width: 640px) 46vw, calc(100vw - 40px)"
+            alt="Fotografia dos componentes do óculos sobre uma bancada azul: microfone, módulo ESP32 e display OLED, identificados por rótulos."
+            caption="Componentes do protótipo: microfone, display OLED e microcontrolador ESP32."
+          />
+          <Figure
+            asset={figures.oculosPrototipo}
+            sizes="(min-width: 1024px) 400px, (min-width: 640px) 46vw, calc(100vw - 40px)"
+            alt="Fotografia do protótipo de óculos montado em papelão, com o microfone e a eletrônica acoplados na lateral."
+            caption="O protótipo montado, com a eletrônica embarcada na armação."
+          />
         </div>
       </article>
     </Section>

@@ -14,6 +14,8 @@ import { awards, certifications, projects } from "@/content/profile";
 // Import relativo de propósito: o alias `@/` não resolveu para assets no
 // modo de desenvolvimento (`astro dev`), embora funcionasse no build.
 import fotoPerfil from "../assets/foto-perfil.jpg";
+import oculosHardwareImg from "../assets/oculos-hardware.jpg";
+import oculosPrototipoImg from "../assets/oculos-prototipo.jpg";
 import tccFluxograma from "../assets/tcc-fluxograma.png";
 import tccLayout from "../assets/tcc-layout.png";
 import tccMapaCalor from "../assets/tcc-mapa-calor.png";
@@ -39,11 +41,13 @@ const retrato = getImage({ src: fotoPerfil, format: "avif", width: 400, quality:
 
 // As figuras do artigo são servidas em várias larguras (srcSet), para o
 // celular não baixar a versão de desktop.
-const [photo, heatmap, fluxograma, layout] = await Promise.all([
+const [photo, heatmap, fluxograma, layout, oculosHardware, oculosPrototipo] = await Promise.all([
   retrato,
   responsiveImage(tccMapaCalor, [480, 800, 1200, 1800], { quality: 78 }),
   responsiveImage(tccFluxograma, [480, 900, 1291]),
   responsiveImage(tccLayout, [480, 841]),
+  responsiveImage(oculosHardwareImg, [480, 900, 2000]),
+  responsiveImage(oculosPrototipoImg, [480, 900, 1599]),
 ]);
 
 const retratoAsset = {
@@ -159,7 +163,7 @@ const jsonLd = {
     <Hero retrato={retratoAsset} heatmap={heatmap} />
     <Profile />
     <Trajectory />
-    <Projects figures={{ heatmap, fluxograma, layout }} />
+    <Projects figures={{ heatmap, fluxograma, layout, oculosHardware, oculosPrototipo }} />
     <Publications />
     <Capabilities />
     <Credentials />

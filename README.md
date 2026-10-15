@@ -66,7 +66,8 @@ Resultado medido (Lighthouse 12, mobile, três execuções seguidas):
 | --- | --- |
 | `src/content/profile.ts` | Perfil, experiências, projetos, publicação, competências, formação, certificados e premiações. |
 | `src/lib/site.ts` | Nome, e-mail, localização, perfis (GitHub/LinkedIn), navegação, título/descrição para SEO e palavras-chave. |
-| `src/assets/` | Figuras do artigo do TCC: mapa de calor, fluxograma e layout do ambiente. |
+| `src/assets/` | Figuras do artigo do TCC (mapa de calor, fluxograma, layout) e as fotos do protótipo dos óculos. |
+| `public/certificados/` | PDFs dos certificados, vinculados na seção de Certificados. |
 | `public/artigo-analise-espacial-ocupacao-wifi-abakos-2025.pdf` | PDF do artigo publicado, oferecido para download na seção de Publicações. |
 | `public/curriculo-maicon-gomes-messias.pdf` | Currículo em PDF, gerado por `npm run cv`. |
 | `scripts/make-cv.mjs` | Sobe `dist/` e usa o Chrome headless para "imprimir" a página no currículo em PDF. |

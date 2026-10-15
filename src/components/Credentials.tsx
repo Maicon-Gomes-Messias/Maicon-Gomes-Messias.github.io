@@ -12,8 +12,24 @@ export function Credentials() {
             className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4 py-3.5"
           >
             <div className="min-w-0">
-              <p className="text-ink">{item.title}</p>
-              <p className="text-small text-ink-faint">{item.issuer}</p>
+              <p className="text-ink">
+                {item.file ? (
+                  <a
+                    href={item.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline"
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  item.title
+                )}
+              </p>
+              <p className="text-small text-ink-faint">
+                {item.issuer}
+                {item.file ? <span className="data"> · certificado (PDF)</span> : null}
+              </p>
             </div>
             <time className="data text-ink-faint" dateTime={item.dateTime}>
               {item.date}

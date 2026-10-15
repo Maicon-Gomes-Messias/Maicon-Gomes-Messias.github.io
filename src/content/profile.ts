@@ -80,6 +80,8 @@ export type Project = {
   stack: string[];
   /** Presente quando o projeto virou publicação. */
   publication?: Publication;
+  /** Links externos do projeto (site, vídeo, etc.). */
+  links?: { label: string; href: string }[];
 };
 
 export const projects: Project[] = [
@@ -128,6 +130,16 @@ export const projects: Project[] = [
       "Finalista nacional no Brasil e finalista mundial das Américas",
     ],
     stack: ["IA", "Processamento de áudio", "Hardware embarcado", "Acessibilidade"],
+    links: [
+      {
+        label: "Página do time na Imagine Cup",
+        href: "https://imaginecup.microsoft.com/pt-br/Team/396f36f7-5a80-4e08-9ab6-afa9e971c9cc",
+      },
+      {
+        label: "Assistir ao vídeo do projeto",
+        href: "https://www.youtube.com/watch?v=2EDb0Xnxv2k",
+      },
+    ],
   },
 ];
 
@@ -178,7 +190,14 @@ export const education: Education[] = [
   },
 ];
 
-export type Credential = { issuer: string; title: string; date: string; dateTime: string };
+export type Credential = {
+  issuer: string;
+  title: string;
+  date: string;
+  dateTime: string;
+  /** PDF do certificado, publicado em `public/certificados`. */
+  file?: string;
+};
 
 export const certifications: Credential[] = [
   {
@@ -186,36 +205,49 @@ export const certifications: Credential[] = [
     title: "AWS Academy Graduate — AWS Academy Cloud Foundations",
     date: "out. 2023",
     dateTime: "2023-10",
+    file: "/certificados/aws-academy-cloud-foundations.pdf",
   },
   {
     issuer: "Cisco Networking Academy",
     title: "Cybersecurity Essentials",
-    date: "jul. 2023",
-    dateTime: "2023-07",
+    date: "out. 2023",
+    dateTime: "2023-10",
+    file: "/certificados/cisco-cybersecurity-essentials.pdf",
   },
   {
     issuer: "Cisco Networking Academy",
-    title: "Introduction to Cybersecurity",
-    date: "out. 2023",
-    dateTime: "2023-10",
+    title: "Introdução à Cibersegurança",
+    date: "jul. 2023",
+    dateTime: "2023-07",
+    file: "/certificados/cisco-introducao-a-ciberseguranca.pdf",
   },
   {
     issuer: "Microsoft",
     title: "Imagine Cup — Final Nacional do Brasil",
     date: "fev. 2023",
     dateTime: "2023-02",
+    file: "/certificados/imagine-cup-final-nacional-brasil-2023.pdf",
   },
   {
     issuer: "Microsoft",
     title: "Imagine Cup — Finalista Mundial das Américas",
     date: "fev. 2023",
     dateTime: "2023-02",
+    file: "/certificados/imagine-cup-finalista-mundial-americas-2023.pdf",
   },
   {
     issuer: "PUC Minas",
     title: "Monitoria em IoT (Internet das Coisas) — Engenharia de Computação",
     date: "out. 2021",
     dateTime: "2021-10",
+    file: "/certificados/puc-minas-monitoria-iot.pdf",
+  },
+  {
+    issuer: "Digital Innovation One",
+    title: "Lógica de programação essencial",
+    date: "out. 2020",
+    dateTime: "2020-10",
+    file: "/certificados/dio-logica-de-programacao-essencial.pdf",
   },
 ];
 
