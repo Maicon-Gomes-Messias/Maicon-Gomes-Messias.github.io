@@ -56,6 +56,19 @@ export const experiences: Experience[] = [
   },
 ];
 
+export type Publication = {
+  /** Veículo: revista, evento ou repositório. */
+  venue: string;
+  /** Volume, número, páginas, data e ISSN. */
+  detail: string;
+  /** Coautoria, na ordem do artigo. */
+  authors: string[];
+  /** Repositório público do código. */
+  repository: string;
+  /** Caminho do PDF para download. */
+  pdf: string;
+};
+
 export type Project = {
   title: string;
   subtitle: string;
@@ -65,23 +78,41 @@ export type Project = {
   summary: string;
   points: string[];
   stack: string[];
+  /** Presente quando o projeto virou publicação. */
+  publication?: Publication;
 };
 
 export const projects: Project[] = [
   {
     title: "Análise espacial de ocupação em espaços controlados por meio de conexões Wi-Fi",
-    subtitle: "Trabalho de Conclusão de Curso",
-    context: "Engenharia de Computação, PUC Minas",
+    subtitle: "Trabalho de Conclusão de Curso — artigo publicado",
+    context: "Engenharia de Computação, PUC Minas · Revista Abakós, 2025",
+    year: "2025",
     summary:
-      "Um sistema de monitoramento de ocupação que parte da análise dos pacotes de Wi-Fi já presentes no ambiente, capturados por roteadores com OpenWRT. Com aprendizado de máquina, o sistema estima a presença de pessoas e, com visualização geográfica, transforma esse número em mapas de calor legíveis.",
+      "Um sistema de monitoramento de ocupação que parte dos pacotes de Wi-Fi já presentes no ambiente. Um roteador TP-Link Archer C20 em modo monitor, sob OpenWRT, escuta beacon frames, probe requests e probe responses; o RSSI é extraído com PyShark e uma rede neural densa estima a zona ocupada. O resultado é um mapa de calor sobre a planta baixa vetorizada, com anonimização dos dados conforme a LGPD.",
     points: [
-      "Captura e análise de tráfego de rede com PyShark",
-      "Aprendizado de máquina aplicado à estimativa de ocupação",
-      "Mapas de calor para leitura espacial do ambiente",
-      "Baixo custo de implantação e conformidade com a LGPD",
-      "Aplicação viável em contextos corporativos e acadêmicos",
+      "Coleta passiva de pacotes 802.11 em modo monitor, com roteador de baixo custo",
+      "Extração de MAC de origem e RSSI com PyShark, Python, Pandas e NumPy",
+      "Rede neural densa (feed-forward) em TensorFlow para classificar a zona de cada registro",
+      "Mapas de calor sobre planta baixa vetorizada, com suavização gaussiana e colormap coolwarm",
+      "Anonimização e minimização de dados em conformidade com a LGPD",
+      "Experimento com 1 e 5 minutos de coleta: a janela maior trouxe mais densidade e precisão",
     ],
-    stack: ["OpenWRT", "PyShark", "Python", "Machine Learning", "LGPD"],
+    stack: ["OpenWRT", "PyShark", "Python", "Pandas", "TensorFlow", "scikit-learn", "Matplotlib", "OpenCV"],
+    publication: {
+      venue: "Revista Abakós — PUC Minas",
+      detail: "v. 1, n. 1, p. 01-17 · jun. 2025 · ISSN 2316-9451",
+      authors: [
+        "Ana Maria Ribeiro Rafael",
+        "Arthur Silva Carvalho",
+        "João Pedro Moura de Assis Filho",
+        "Maicon Gomes Messias",
+        "Gabriel Barbosa da Fonseca",
+        "Marta Dias Moreira Noronha",
+      ],
+      repository: "https://github.com/ICEI-PUC-Minas-EC-TCC/pmg-ec-2025-1-tcc2-mapa-de-calor",
+      pdf: "/artigo-analise-espacial-ocupacao-wifi-abakos-2025.pdf",
+    },
   },
   {
     title: "Óculos inteligentes para pessoas com deficiência auditiva",

@@ -11,7 +11,7 @@ export const siteUrl = (
 export const siteTitle = "Maicon Gomes Messias — Suporte técnico e infraestrutura de TI";
 
 export const description =
-  "Técnico de TI na PUC Minas e bacharel em Engenharia de Computação. Atuo com suporte a usuários, infraestrutura de rede, Windows e AWS, com projetos em IoT, dados e machine learning.";
+  "Técnico de TI na PUC Minas, bacharel em Engenharia de Computação. Suporte a usuários, infraestrutura de rede, Windows e AWS, com artigo sobre ocupação por Wi-Fi publicado na Revista Abakós.";
 
 export const keywords = [
   "Maicon Gomes Messias",
@@ -27,12 +27,19 @@ export const keywords = [
   "IoT",
   "machine learning",
   "segurança da informação",
+  "monitoramento de ocupação",
+  "mapas de calor",
+  "Wi-Fi",
+  "OpenWRT",
+  "RSSI",
+  "LGPD",
+  "Revista Abakós",
   "Betim",
   "Minas Gerais",
 ];
 
 /** Data da última atualização do conteúdo. Atualize ao editar o site. */
-export const contentUpdated = "2026-10-13";
+export const contentUpdated = "2026-10-15";
 
 /**
  * Imagem de compartilhamento (Open Graph / Twitter), em public/og.png.

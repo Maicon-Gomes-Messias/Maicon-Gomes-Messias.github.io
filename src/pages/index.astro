@@ -9,24 +9,36 @@ import { Profile } from "@/components/Profile";
 import { Projects } from "@/components/Projects";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Trajectory } from "@/components/Trajectory";
-import { awards, certifications } from "@/content/profile";
+import { awards, certifications, projects } from "@/content/profile";
 // Import relativo de propósito: o alias `@/` não resolveu para assets no
 // modo de desenvolvimento (`astro dev`), embora funcionasse no build.
 import fotoPerfil from "../assets/foto-perfil.jpg";
+import tccFluxograma from "../assets/tcc-fluxograma.png";
+import tccLayout from "../assets/tcc-layout.png";
+import tccMapaCalor from "../assets/tcc-mapa-calor.png";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { description, site, siteTitle, siteUrl } from "@/lib/site";
 
 const personId = `${siteUrl}/#person`;
 const websiteId = `${siteUrl}/#website`;
+const articleId = `${siteUrl}/#artigo-ocupacao-wifi`;
+
+const [thesis] = projects;
+const publication = thesis.publication;
+const articleAuthors = publication
+  ? publication.authors.map((name) =>
+      name === site.name ? { "@id": personId } : { "@type": "Person", name },
+    )
+  : [];
 
 // 400px é o tamanho nativo da foto; renderizada a 240px dá ~1,7x (retina).
 // Não há ganho em pedir mais que isso — só aumentaria o arquivo.
-const retrato = await getImage({
-  src: fotoPerfil,
-  format: "avif",
-  width: 400,
-  quality: 78,
-});
+const [retrato, heatmap, fluxograma, layout] = await Promise.all([
+  getImage({ src: fotoPerfil, format: "avif", width: 400, quality: 78 }),
+  getImage({ src: tccMapaCalor, format: "avif", width: 1600, quality: 80 }),
+  getImage({ src: tccFluxograma, format: "avif", width: 1200, quality: 80 }),
+  getImage({ src: tccLayout, format: "avif", width: 841, quality: 80 }),
+]);
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -60,6 +72,7 @@ const jsonLd = {
       },
       knowsLanguage: ["pt-BR", "en"],
       sameAs: [site.github, site.linkedin],
+      subjectOf: { "@id": articleId },
       knowsAbout: [
         "Suporte técnico de TI",
         "Infraestrutura de TI",
@@ -98,6 +111,27 @@ const jsonLd = {
       about: { "@id": personId },
       inLanguage: "pt-BR",
     },
+    ...(publication
+      ? [
+          {
+            "@type": "ScholarlyArticle",
+            "@id": articleId,
+            headline: thesis.title,
+            name: thesis.title,
+            author: articleAuthors,
+            datePublished: "2025-06",
+            inLanguage: "pt-BR",
+            url: `${siteUrl}${publication.pdf}`,
+            about: ["Monitoramento de ocupação", "Redes Wi-Fi", "Mapas de calor"],
+            isPartOf: {
+              "@type": "Periodical",
+              name: publication.venue,
+              issn: "2316-9451",
+              publisher: { "@type": "Organization", name: "PUC Minas" },
+            },
+          },
+        ]
+      : []),
   ],
 };
 ---
@@ -111,10 +145,10 @@ const jsonLd = {
   <SiteHeader />
 
   <main id="conteudo">
-    <Hero retrato={retrato} />
+    <Hero retrato={retrato} heatmap={heatmap} />
     <Profile />
     <Trajectory />
-    <Projects />
+    <Projects figures={{ heatmap, fluxograma, layout }} />
     <Capabilities />
     <Credentials />
     <Contact />

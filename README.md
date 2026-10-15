@@ -65,6 +65,8 @@ Resultado medido (Lighthouse 12, mobile, três execuções seguidas):
 | --- | --- |
 | `src/content/profile.ts` | Perfil, experiências, projetos, competências, formação, certificados e premiações. |
 | `src/lib/site.ts` | Nome, e-mail, telefone, localização, perfis (GitHub/LinkedIn), título/descrição para SEO e palavras-chave. |
+| `src/assets/` | Figuras do artigo do TCC: mapa de calor, fluxograma e layout do ambiente. |
+| `public/artigo-analise-espacial-ocupacao-wifi-abakos-2025.pdf` | PDF do artigo publicado, oferecido para download na seção de Projetos. |
 | `astro.config.mjs` | Domínio final (`site`) e integrações. |
 
 Cada seção da página é um componente React em `src/components/`, e `src/pages/index.astro`
@@ -78,8 +80,11 @@ mapas de calor de ocupação a partir de Wi-Fi (TCC) e óculos que convertem fal
 superfície de "papel técnico" clara, com verde-petróleo como cor de instrumento e âmbar
 reservado para leitura de calor.
 
-- **Elemento-assinatura:** o campo de sinal no topo (`src/components/SignalField.tsx`),
-  um mapa de calor de Wi-Fi em SVG renderizado no servidor.
+- **Elemento-assinatura:** as figuras reais do artigo no topo e em Projetos — o comparativo
+  de mapas de calor (`src/assets/tcc-mapa-calor.png`), o fluxograma do método
+  (`src/assets/tcc-fluxograma.png`) e o layout do ambiente de testes
+  (`src/assets/tcc-layout.png`), extraídas do artigo publicado na Revista Abakós. São
+  processadas pelo `astro:assets` (`getImage`, AVIF) em `src/pages/index.astro`.
 - **Tipografia:** Space Grotesk (títulos), Instrument Sans (texto) e JetBrains Mono (apenas
   dados: datas, tecnologias, rótulos). Escala baseada em *The Elements of Typographic Style*.
 - **Estrutura:** grades editoriais com títulos de seção em coluna fixa, réguas de 1px e listas

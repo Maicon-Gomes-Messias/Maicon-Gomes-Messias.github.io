@@ -1,21 +1,8 @@
-import { SignalField } from "@/components/SignalField";
 import { facts, intro } from "@/content/profile";
+import type { Asset } from "@/lib/assets";
 import { mailto } from "@/lib/site";
 
-/**
- * Resultado de `getImage` do Astro (astro:assets).
- *
- * Declarado aqui em vez de importado porque o Astro 7 mudou esse tipo
- * (`srcSet` deixou de ser string e virou `{ values, attribute }`) e importá-lo
- * do módulo virtual cria acoplamento desnecessário. Só usamos `src` e as
- * dimensões intrínsecas.
- */
-type Retrato = {
-  src: string;
-  attributes: Record<string, number>;
-};
-
-export function Hero({ retrato }: { retrato: Retrato }) {
+export function Hero({ retrato, heatmap }: { retrato: Asset; heatmap: Asset }) {
   return (
     <section id="inicio" className="scroll-mt-20">
       <div className="mx-auto w-full max-w-[1180px] px-5 pt-12 pb-0 sm:px-8 md:pt-20">
@@ -67,19 +54,28 @@ export function Hero({ retrato }: { retrato: Retrato }) {
         </div>
       </div>
 
-      {/* O elemento-assinatura: o sinal que já existe no ambiente, tornado visível. */}
+      {/* O elemento-assinatura: o mapa de calor real do TCC, que mostra o
+          sinal de Wi-Fi já presente no ambiente virando leitura de ocupação. */}
       {/* Sem borda inferior: a seção seguinte já traz a régua que fecha a faixa. */}
       <div className="bleed mt-14 border-t border-line bg-paper-deep">
         <div className="mx-auto w-full max-w-[1180px] px-5 py-8 sm:px-8 md:py-10">
           <div className="grid gap-7 md:grid-cols-[minmax(0,1fr)_minmax(0,300px)] md:items-end">
-            <div className="inset-rule relative h-[200px] overflow-hidden rounded-[var(--radius-instrument)] bg-surface sm:h-[250px] md:h-[300px]">
-              <SignalField className="absolute inset-0 h-full w-full" />
-            </div>
+            <figure className="inset-rule min-w-0 overflow-hidden rounded-[var(--radius-instrument)] bg-surface">
+              <img
+                src={heatmap.src}
+                width={heatmap.attributes.width}
+                height={heatmap.attributes.height}
+                alt="Dois mapas de calor de ocupação do TCC: à esquerda com 1 minuto de coleta e à direita com 5 minutos, sobre a mesma planta baixa."
+                loading="lazy"
+                decoding="async"
+                className="block h-auto w-full"
+              />
+            </figure>
             <p className="max-w-[46ch] text-small text-ink-soft">
-              Uma ilustração do campo de intensidade de Wi-Fi, a leitura que sustenta meu TCC. As
-              marcas são pontos de acesso virtuais e a mancha mostra onde o sinal chega mais forte.
-              A proposta do trabalho é usar esse sinal, que já existe no ambiente, para estimar a
-              ocupação de um espaço e desenhar isso como mapa de calor.
+              Mapas de calor reais do meu TCC: a mesma planta baixa lida com 1 minuto (à esquerda) e
+              com 5 minutos (à direita) de coleta de pacotes Wi-Fi. Os tons quentes marcam as zonas
+              com maior presença estimada pela rede neural. A proposta é usar o sinal que já existe
+              no ambiente para estimar a ocupação do espaço.
             </p>
           </div>
         </div>

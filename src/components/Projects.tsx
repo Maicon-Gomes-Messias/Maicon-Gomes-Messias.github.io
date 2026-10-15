@@ -1,6 +1,6 @@
-import { HeatVisual } from "@/components/ProjectVisual";
 import { Section } from "@/components/Section";
 import { projects } from "@/content/profile";
+import type { Asset } from "@/lib/assets";
 
 const pipeline = [
   { title: "Captação", body: "Módulos de microfone recolhem a fala de quem está por perto." },
@@ -38,7 +38,84 @@ function StackRow({ items }: { items: string[] }) {
   );
 }
 
-export function Projects() {
+/** Figura do artigo: imagem emoldurada com legenda no padrão editorial. */
+function Figure({
+  asset,
+  alt,
+  caption,
+}: {
+  asset: Asset;
+  alt: string;
+  caption: string;
+}) {
+  return (
+    <figure className="min-w-0">
+      <div className="inset-rule overflow-hidden rounded-[var(--radius-instrument)] bg-surface">
+        <img
+          src={asset.src}
+          width={asset.attributes.width}
+          height={asset.attributes.height}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          className="block h-auto w-full"
+        />
+      </div>
+      <figcaption className="data mt-3 max-w-[70ch] leading-relaxed text-ink-faint">
+        {caption}
+      </figcaption>
+    </figure>
+  );
+}
+
+function formatAuthors(authors: string[]): string {
+  if (authors.length <= 1) return authors.join("");
+  return `${authors.slice(0, -1).join(", ")} e ${authors.at(-1)}`;
+}
+
+function Publication({ project }: { project: (typeof projects)[number] }) {
+  const { publication } = project;
+  if (!publication) return null;
+
+  return (
+    <div className="mt-12 grid gap-8 border-t border-line pt-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-12">
+      <div className="min-w-0">
+        <p className="data text-signal">Publicação</p>
+        <h4 className="mt-3 font-display text-h3 text-ink">{publication.venue}</h4>
+        <p className="mt-1.5 text-small text-ink-soft">{publication.detail}</p>
+        <p className="mt-5 grid gap-1 sm:grid-cols-[110px_minmax(0,1fr)] sm:gap-4">
+          <span className="data pt-0.5 text-ink-faint">Autores</span>
+          <span className="max-w-[62ch] text-small text-ink-soft">
+            {formatAuthors(publication.authors)}
+          </span>
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        <a
+          href={publication.pdf}
+          className="rounded-[var(--radius-instrument)] bg-ink px-5 py-2.5 text-small font-medium text-paper hover:bg-signal"
+        >
+          Baixar o artigo (PDF)
+        </a>
+        <a
+          href={publication.repository}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-[var(--radius-instrument)] border border-line-strong px-5 py-2.5 text-small font-medium text-ink hover:border-ink"
+        >
+          Ver o código
+        </a>
+      </div>
+    </div>
+  );
+}
+
+export function Projects({
+  figures,
+}: {
+  figures: { heatmap: Asset; fluxograma: Asset; layout: Asset };
+}) {
   const [thesis, glasses] = projects;
 
   return (
@@ -48,9 +125,11 @@ export function Projects() {
       note="Dois trabalhos em que a medição vira algo que alguém consegue usar."
     >
       <article className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
-        <div className="inset-rule overflow-hidden rounded-[var(--radius-instrument)] bg-surface">
-          <HeatVisual className="block w-full" />
-        </div>
+        <Figure
+          asset={figures.heatmap}
+          alt="Comparativo de dois mapas de calor de ocupação sobre a mesma planta baixa: com 1 minuto de coleta e com 5 minutos de coleta de pacotes Wi-Fi."
+          caption="Figura 4 — Comparativo dos mapas de calor gerados com cerca de 1 minuto (à esquerda) e 5 minutos (à direita) de coleta. Fonte: os autores."
+        />
         <div className="min-w-0">
           <p className="data text-signal">{thesis.subtitle}</p>
           <h3 className="mt-3 font-display text-h2 text-ink">{thesis.title}</h3>
@@ -60,6 +139,21 @@ export function Projects() {
           <StackRow items={thesis.stack} />
         </div>
       </article>
+
+      <Publication project={thesis} />
+
+      <div className="mt-12 grid gap-8 border-t border-line pt-12 sm:grid-cols-2 lg:gap-12">
+        <Figure
+          asset={figures.fluxograma}
+          alt="Fluxograma do sistema: roteador e ponto de acesso, coleta de pacotes Wi-Fi, tratamento e extração em CSV, dados para treinamento e análise, central de scripts, aprendizado de máquina e geração do mapa de calor."
+          caption="Figura 1 — Fluxograma do processo metodológico, da captura dos pacotes à geração do mapa de calor. Fonte: os autores."
+        />
+        <Figure
+          asset={figures.layout}
+          alt="Planta baixa do ambiente de testes com os cômodos nomeados e a distribuição de dispositivos e valores de RSSI."
+          caption="Figura 2 — Layout do ambiente de testes com a distribuição dos dispositivos monitorados. Fonte: os autores."
+        />
+      </div>
 
       <article className="mt-16 border-t border-line pt-12">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12">
