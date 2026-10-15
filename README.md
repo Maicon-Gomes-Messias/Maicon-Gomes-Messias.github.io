@@ -23,6 +23,7 @@ npm install
 npm run dev      # http://localhost:3000 (edição ao vivo)
 npm run build    # gera o site estático em dist/
 npm run preview  # serve o build localmente
+npm run cv       # build + gera o currículo em PDF (public/curriculo-*.pdf)
 npm run lint
 ```
 
@@ -63,10 +64,12 @@ Resultado medido (Lighthouse 12, mobile, três execuções seguidas):
 
 | Arquivo | O que contém |
 | --- | --- |
-| `src/content/profile.ts` | Perfil, experiências, projetos, competências, formação, certificados e premiações. |
-| `src/lib/site.ts` | Nome, e-mail, telefone, localização, perfis (GitHub/LinkedIn), título/descrição para SEO e palavras-chave. |
+| `src/content/profile.ts` | Perfil, experiências, projetos, publicação, competências, formação, certificados e premiações. |
+| `src/lib/site.ts` | Nome, e-mail, localização, perfis (GitHub/LinkedIn), navegação, título/descrição para SEO e palavras-chave. |
 | `src/assets/` | Figuras do artigo do TCC: mapa de calor, fluxograma e layout do ambiente. |
-| `public/artigo-analise-espacial-ocupacao-wifi-abakos-2025.pdf` | PDF do artigo publicado, oferecido para download na seção de Projetos. |
+| `public/artigo-analise-espacial-ocupacao-wifi-abakos-2025.pdf` | PDF do artigo publicado, oferecido para download na seção de Publicações. |
+| `public/curriculo-maicon-gomes-messias.pdf` | Currículo em PDF, gerado por `npm run cv`. |
+| `scripts/make-cv.mjs` | Sobe `dist/` e usa o Chrome headless para "imprimir" a página no currículo em PDF. |
 | `astro.config.mjs` | Domínio final (`site`) e integrações. |
 
 Cada seção da página é um componente React em `src/components/`, e `src/pages/index.astro`
@@ -83,8 +86,9 @@ reservado para leitura de calor.
 - **Elemento-assinatura:** as figuras reais do artigo no topo e em Projetos — o comparativo
   de mapas de calor (`src/assets/tcc-mapa-calor.png`), o fluxograma do método
   (`src/assets/tcc-fluxograma.png`) e o layout do ambiente de testes
-  (`src/assets/tcc-layout.png`), extraídas do artigo publicado na Revista Abakós. São
-  processadas pelo `astro:assets` (`getImage`, AVIF) em `src/pages/index.astro`.
+  (`src/assets/tcc-layout.png`), extraídas do artigo publicado na Revista Abakós. Cada figura é
+  processada pelo `astro:assets` em várias larguras, formando um `srcSet` responsivo
+  (`src/lib/responsive.ts`), para o celular não baixar a versão de desktop.
 - **Tipografia:** Space Grotesk (títulos), Instrument Sans (texto) e JetBrains Mono (apenas
   dados: datas, tecnologias, rótulos). Escala baseada em *The Elements of Typographic Style*.
 - **Estrutura:** grades editoriais com títulos de seção em coluna fixa, réguas de 1px e listas
@@ -109,6 +113,11 @@ reservado para leitura de calor.
 - **Sem `text-wrap: pretty`.** É um algoritmo de quebra de linha caro, reexecutado a cada
   relayout; o ganho tipográfico em parágrafos não paga. Nos títulos o `balance` continua,
   porque é barato (o Chromium limita a seis linhas por bloco) e melhora o resultado.
+- **Imagens responsivas e preguiçosas.** Cada figura do artigo é gerada em quatro larguras
+  (AVIF) e entregue por `srcSet` + `sizes`; o navegador baixa só a variante necessária. As
+  figuras abaixo da dobra têm `loading="lazy"`, e todas declaram `width`/`height` para não
+  deslocar o layout (CLS 0). Medido no Lighthouse 13: **100** em mobile e desktop, com ~104 KB
+  de transferência e LCP em ~1,1 s.
 - **Fontes auto-hospedadas** em `public/fonts` (subsets latin, licença SIL Open Font
   License). Só as duas fontes usadas acima da dobra são pré-carregadas; a monoespaçada não.
   As famílias `…Fallback` repetem as métricas das originais para o layout não deslocar na
@@ -124,9 +133,15 @@ reservado para leitura de calor.
 - Link "Pular para o conteúdo", foco visível, contraste mínimo de 4,5:1 no texto e
   `prefers-reduced-motion` respeitado.
 - Metadados completos (title, description, canonical, Open Graph, Twitter, robots),
-  JSON-LD de `Person`, `WebSite` e `ProfilePage` com `sameAs` para GitHub e LinkedIn,
-  `sitemap.xml`, `robots.txt`, `manifest.webmanifest` e imagem Open Graph.
+  JSON-LD de `Person`, `WebSite`, `ProfilePage` e `ScholarlyArticle` (o artigo publicado) com
+  `sameAs` para GitHub e LinkedIn, `sitemap.xml`, `robots.txt`, `manifest.webmanifest` e
+  imagem Open Graph.
+- **Ícones completos**: `icon.svg` (navegadores modernos), `favicon.ico` (legado),
+  `apple-touch-icon.png` e `icon-192/512.png` no manifest (`public/`).
+- **Página 404 própria** (`src/pages/404.astro`) com `noindex`, em vez do padrão do GitHub
+  Pages.
 - `public/og.png` é um arquivo estático (1200×630). Para trocar a imagem de
   compartilhamento, substitua esse arquivo.
-- Folha de estilo de impressão: a página vira um currículo limpo em PDF, sem cabeçalho,
-  campo de sinal ou rodapé.
+- Folha de estilo de impressão: a página vira um currículo em PDF, sem cabeçalho, navegação,
+  rodapé, figuras nem botões, com o espaçamento compactado. O botão **Baixar currículo (PDF)**
+  (no topo e no contato) aponta para o arquivo gerado por `npm run cv`.

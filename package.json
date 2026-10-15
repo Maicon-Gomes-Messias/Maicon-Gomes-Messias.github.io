@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "cv": "npm run build && node scripts/make-cv.mjs",
     "preview": "astro preview",
     "lint": "eslint ."
   },

@@ -8,4 +8,15 @@ export default defineConfig([
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
+  {
+    // Scripts de build rodam no Node.
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        process: "readonly",
+        URL: "readonly",
+      },
+    },
+  },
 ]);

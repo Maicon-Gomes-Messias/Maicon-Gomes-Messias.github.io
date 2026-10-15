@@ -4,11 +4,16 @@ import { description, keywords, ogImage, site, siteTitle, siteUrl } from "@/lib/
 
 interface Props {
   title?: string;
+  /** Páginas utilitárias (ex.: 404) não devem ser indexadas. */
+  noindex?: boolean;
 }
 
-const { title = siteTitle } = Astro.props;
+const { title = siteTitle, noindex = false } = Astro.props;
 const canonical = `${siteUrl}/`;
 const ogImageUrl = `${siteUrl}${ogImage.path}`;
+const robotsContent = noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-image-preview:large, max-snippet:-1";
 ---
 
 <!doctype html>
@@ -23,12 +28,14 @@ const ogImageUrl = `${siteUrl}${ogImage.path}`;
     <meta name="author" content={site.name} />
     <meta name="application-name" content={site.name} />
     <meta name="category" content="technology" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="robots" content={robotsContent} />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#f1f2ed" />
 
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <meta property="og:type" content="profile" />

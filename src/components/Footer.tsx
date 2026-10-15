@@ -19,7 +19,7 @@ export function Footer() {
             </li>
           ))}
         </ul>
-        <p className="data text-ink-faint">Desenvolvido com Next.js e React</p>
+        <p className="data text-ink-faint">Desenvolvido com Astro e React</p>
       </div>
     </footer>
   );

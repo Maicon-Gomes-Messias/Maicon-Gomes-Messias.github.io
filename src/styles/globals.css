@@ -234,6 +234,8 @@ h3 {
 @media print {
   header,
   footer,
+  nav,
+  figure,
   .bleed {
     display: none !important;
   }
@@ -243,9 +245,32 @@ h3 {
     content-visibility: visible;
   }
 
+  /* Currículo denso: sem o respiro de tela, o PDF fica com poucas páginas. */
+  .defer-render > div {
+    padding-block: 0.85rem !important;
+  }
+
+  .defer-render > div > div {
+    column-gap: 2.5rem !important;
+  }
+
+  #inicio > div {
+    padding-top: 0.5rem !important;
+  }
+
+  article {
+    margin-top: 1.25rem !important;
+    padding-top: 1.25rem !important;
+  }
+
+  .defer-render h2 {
+    font-size: 1.5rem !important;
+  }
+
   body {
     background: #fff;
     color: #000;
+    font-size: 0.95rem;
   }
 
   .grid-field {
@@ -258,9 +283,9 @@ h3 {
     break-after: avoid;
   }
 
-  li,
-  article,
-  section {
+  /* Só listas e blocos pequenos ficam inteiros; seções longas podem (e
+     devem) quebrar entre páginas, senão sobra espaço em branco. */
+  li {
     break-inside: avoid;
   }
 }

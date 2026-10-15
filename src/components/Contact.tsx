@@ -13,7 +13,7 @@ export function Contact() {
         ou conversar sobre um projeto de IoT e dados, me escreva. Respondo por e-mail.
       </p>
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="mt-8 flex flex-wrap gap-3 print:hidden">
         <a
           href={mailto}
           className="rounded-[var(--radius-instrument)] bg-ink px-5 py-2.5 text-small font-medium text-paper transition-colors hover:bg-signal"
@@ -21,10 +21,11 @@ export function Contact() {
           Enviar e-mail
         </a>
         <a
-          href={`tel:${site.phoneHref}`}
+          href="/curriculo-maicon-gomes-messias.pdf"
+          download
           className="rounded-[var(--radius-instrument)] border border-line-strong px-5 py-2.5 text-small font-medium text-ink transition-colors hover:border-ink"
         >
-          Ligar
+          Baixar currículo (PDF)
         </a>
       </div>
 
@@ -34,14 +35,6 @@ export function Contact() {
           <dd>
             <a href={mailto} className="link-underline text-ink">
               {site.email}
-            </a>
-          </dd>
-        </div>
-        <div className="grid grid-cols-[104px_minmax(0,1fr)] gap-4 py-3.5">
-          <dt className="data pt-0.5 text-ink-faint">Telefone</dt>
-          <dd>
-            <a href={`tel:${site.phoneHref}`} className="link-underline text-ink">
-              {site.phone}
             </a>
           </dd>
         </div>
