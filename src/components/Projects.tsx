@@ -1,5 +1,5 @@
 import { Section } from "@/components/Section";
-import { projects } from "@/content/profile";
+import { academicProjects, projects } from "@/content/profile";
 import type { Asset } from "@/lib/assets";
 
 const pipeline = [
@@ -188,6 +188,40 @@ export function Projects({
           />
         </div>
       </article>
+
+      <div className="mt-16 border-t border-line pt-12 print:mt-8 print:pt-8">
+        <p className="data text-ink-faint">Outros trabalhos</p>
+        <h3 className="mt-3 font-display text-h2 text-ink">Projetos acadêmicos</h3>
+        <p className="mt-3 max-w-[62ch] text-small text-ink-soft">
+          Trabalhos de programação que escrevi ao longo da graduação em Engenharia de
+          Computação, com o código publicado — de compiladores a hardware.
+        </p>
+
+        <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-instrument)] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          {academicProjects.map((project) => (
+            <li key={project.title} className="flex flex-col bg-surface p-5 sm:p-6">
+              <p className="data text-ink-faint">{project.context}</p>
+              <p className="mt-2 font-display text-h3 text-ink">{project.title}</p>
+              <p className="mt-3 max-w-[46ch] text-small text-ink-soft">{project.summary}</p>
+              <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1">
+                {project.stack.map((item) => (
+                  <li key={item} className="data text-ink-faint">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto border-t border-line pt-4 text-small font-medium text-ink hover:underline print:hidden"
+              >
+                Ver código no GitHub
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Section>
   );
 }

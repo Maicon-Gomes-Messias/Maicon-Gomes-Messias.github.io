@@ -143,6 +143,48 @@ export const projects: Project[] = [
   },
 ];
 
+export type AcademicProject = {
+  title: string;
+  /** Disciplina e ano, no padrão das seções acima. */
+  context: string;
+  summary: string;
+  stack: string[];
+  /** Repositório público do código. */
+  href: string;
+};
+
+/**
+ * Trabalhos de programação da graduação, com o código publicado no GitHub.
+ * Ficam abaixo dos dois projetos principais: mostram amplitude técnica
+ * (compiladores, redes, hardware) sem competir com o TCC e o Imagine Cup.
+ */
+export const academicProjects: AcademicProject[] = [
+  {
+    title: "Compilador com geração de código MIPS",
+    context: "Compiladores · PUC Minas · 2025",
+    summary:
+      "Compilador para uma linguagem didática com as etapas clássicas: análise léxica, análise sintática, tabela de símbolos e geração de assembly MIPS.",
+    stack: ["Java", "Compiladores", "Assembly MIPS"],
+    href: "https://github.com/Maicon-Gomes-Messias/portfolio-academico/tree/main/compilador-java",
+  },
+  {
+    title: "API REST com autenticação e segurança",
+    context: "Redes de Computadores I · PUC Minas · 2023",
+    summary:
+      "API em Node.js separada em controllers, models e rotas, com autenticação por token JWT, senhas com bcrypt, cabeçalhos de segurança com Helmet e acesso a banco via Knex.",
+    stack: ["Node.js", "Express", "JWT", "MySQL"],
+    href: "https://github.com/Maicon-Gomes-Messias/portfolio-academico/tree/main/api-rest-node",
+  },
+  {
+    title: "Processador em FPGA descrito em VHDL",
+    context: "Sistemas Reconfiguráveis · PUC Minas · 2022",
+    summary:
+      "Unidade lógica e aritmética, banco de registradores, RAM e ROM descritos em VHDL e integrados em diagrama de blocos no Quartus, com validação por simulação de formas de onda.",
+    stack: ["VHDL", "FPGA", "Quartus"],
+    href: "https://github.com/Maicon-Gomes-Messias/portfolio-academico/tree/main/fpga-vhdl",
+  },
+];
+
 export type Capability = { title: string; body: string; tools?: string[] };
 
 export const capabilities: Capability[] = [
