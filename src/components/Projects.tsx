@@ -1,5 +1,5 @@
 import { Section } from "@/components/Section";
-import { academicProjects, projects } from "@/content/profile";
+import { otherProjects, projects } from "@/content/profile";
 import type { Asset } from "@/lib/assets";
 
 const pipeline = [
@@ -191,14 +191,14 @@ export function Projects({
 
       <div className="mt-16 border-t border-line pt-12 print:mt-8 print:pt-8">
         <p className="data text-ink-faint">Outros trabalhos</p>
-        <h3 className="mt-3 font-display text-h2 text-ink">Projetos acadêmicos</h3>
+        <h3 className="mt-3 font-display text-h2 text-ink">Outros projetos</h3>
         <p className="mt-3 max-w-[62ch] text-small text-ink-soft">
-          Trabalhos de programação que escrevi ao longo da graduação em Engenharia de
-          Computação, com o código publicado — de compiladores a hardware.
+          Uma ferramenta que escrevi para modelar processos e trabalhos da graduação em
+          Engenharia de Computação, todos com o código publicado.
         </p>
 
-        <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-instrument)] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-          {academicProjects.map((project) => (
+        <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-instrument)] border border-line bg-line sm:grid-cols-2">
+          {otherProjects.map((project) => (
             <li key={project.title} className="flex flex-col bg-surface p-5 sm:p-6">
               <p className="data text-ink-faint">{project.context}</p>
               <p className="mt-2 font-display text-h3 text-ink">{project.title}</p>

@@ -143,9 +143,9 @@ export const projects: Project[] = [
   },
 ];
 
-export type AcademicProject = {
+export type OtherProject = {
   title: string;
-  /** Disciplina e ano, no padrão das seções acima. */
+  /** Contexto do projeto: disciplina, evento ou iniciativa própria. */
   context: string;
   summary: string;
   stack: string[];
@@ -154,11 +154,19 @@ export type AcademicProject = {
 };
 
 /**
- * Trabalhos de programação da graduação, com o código publicado no GitHub.
- * Ficam abaixo dos dois projetos principais: mostram amplitude técnica
- * (compiladores, redes, hardware) sem competir com o TCC e o Imagine Cup.
+ * Projetos além dos dois principais: um utilitário de modelagem de processos e
+ * trabalhos da graduação. Mostram a amplitude técnica (processos, compiladores,
+ * redes, hardware) sem competir com o TCC e o Imagine Cup.
  */
-export const academicProjects: AcademicProject[] = [
+export const otherProjects: OtherProject[] = [
+  {
+    title: "Mapeador de processos com BPMN",
+    context: "Projeto pessoal · 2026",
+    summary:
+      "A descrição de um processo de negócio, em texto, vira um diagrama BPMN 2.0 e um relatório com lead time, gargalos e oportunidades de automação.",
+    stack: ["Python", "BPMN", "Análise de processos"],
+    href: "https://github.com/Maicon-Gomes-Messias/mapeador-de-processos",
+  },
   {
     title: "Compilador com geração de código MIPS",
     context: "Compiladores · PUC Minas · 2025",
